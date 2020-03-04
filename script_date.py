@@ -7,8 +7,8 @@ from selenium.webdriver.support import expected_conditions as ec
 import time
 
 path = "/Users/ticnow/Downloads/chromedriver_2"
-user = "pablo198915@gmail.com"
-password = "bonkymydoge95"
+user = ""
+password = ""
 
 
 class Badoo_profile():
