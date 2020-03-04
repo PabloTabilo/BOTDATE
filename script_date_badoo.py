@@ -19,20 +19,20 @@ class Badoo_profile():
 
 	def conectate_inicial(self):
 		xpath_conectate = "//div[@class='header-sign-in__button']/a"
-		ahref_conectate = WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.XPATH, xpath_conectate)))
+		ahref_conectate = WebDriverWait(self.driver, 5).until(ec.visibility_of_element_located((By.XPATH, xpath_conectate)))
 		ahref_conectate.click()
 
 	def login(self):
 		xpath_email = "//input[@name='email']"
 		xpath_pass = "//input[@name='password']"
 
-		inputEmail = WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.XPATH, xpath_email)))
-		inputPass = WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.XPATH, xpath_pass)))
+		inputEmail = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, xpath_email)))
+		inputPass = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, xpath_pass)))
 
 		inputEmail.send_keys(user)
 		inputPass.send_keys(password)
 
-		buttonElement = WebDriverWait(self.driver, 10).until(ec.visibility_of_element_located((By.XPATH, "//button[@type='submit']")))
+		buttonElement = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, "//button[@type='submit']")))
 		buttonElement.click()
 
 	def click_button(self):
@@ -42,13 +42,18 @@ class Badoo_profile():
 
 	def rare_element(self):
 		xpath_span_close = "//span[@class='p-link js-ovl-close']"
-		span_close = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, xpath_span_close)))
+		span_close = WebDriverWait(self.driver, 3).until(ec.visibility_of_element_located((By.XPATH, xpath_span_close)))
 		span_close.click()
 
 	def notify(self):
 		xpath_notify = "//div[@class='btn btn--monochrome js-chrome-pushes-deny']"
-		notify_close = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, xpath_notify)))
+		notify_close = WebDriverWait(self.driver, 3).until(ec.visibility_of_element_located((By.XPATH, xpath_notify)))
 		notify_close.click()
+
+	def noVotes(self):
+		xpath_noVotes = "//div[@class='btn js-ovl-action']"
+		noVotesElement = WebDriverWait(self.driver, 3).until(ec.visibility_of_element_located((By.XPATH, xpath_noVotes)))
+		noVotesElement.click()
 
 if __name__ == "__main__":
 	tinder_link = "https://tinder.com/"
@@ -70,18 +75,30 @@ if __name__ == "__main__":
 	contador = 0
 	while True:
 		contador += 1
+
+		# Se acabo los votos
 		try:
-			try:
-				badoo_instance.notify()
-				print("Encontrado un notify!")
-			except :
-				time.sleep(0.5)
-			badoo_instance.click_button()
-			print("Dado click!!")
-			if contador > 150:
-				break
+			badoo_instance.noVotes()
 		except :
+			time.sleep(0.5)
+
+		# span raro
+		try:
 			badoo_instance.rare_element()
-			print("No tienes mas")
+		except :
+			time.sleep(0.5)
+
+		# notificacion
+		try:
+			badoo_instance.notify()
+			print("Encontrado un notify!")
+		except :
+			time.sleep(0.5)
+
+		# dando like
+		badoo_instance.click_button()
+		print("Dado click!!")
+		if contador > 400:
+			break
 
 	print("Bot muerto!")
