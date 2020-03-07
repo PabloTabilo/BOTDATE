@@ -8,8 +8,8 @@ import os
 import time
 
 
-#path = "/Users/ticnow/Downloads/chromedriver_2"
-path = "C:/Users/pablo/Downloads/chromedriver.exe"
+path = "/Users/ticnow/Downloads/chromedriver_2"
+#path = "C:/Users/pablo/Downloads/chromedriver.exe"
 number = ""
 
 

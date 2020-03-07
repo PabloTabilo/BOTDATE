@@ -4,12 +4,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
-import argparse
-
 import time
 
-#path = "/Users/ticnow/Downloads/chromedriver_2"
-path = "C:/Users/pablo/Downloads/chromedriver.exe"
+path = "/Users/ticnow/Downloads/chromedriver_2"
 user = ""
 password = ""
 
@@ -40,22 +37,22 @@ class Badoo_profile():
 
 	def click_button(self):
 		xpath_badoo = "//div[@data-choice='yes']"
-		heart_badoo = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, xpath_badoo)))
+		heart_badoo = WebDriverWait(self.driver, 2).until(ec.visibility_of_element_located((By.XPATH, xpath_badoo)))
 		heart_badoo.click()
 
 	def rare_element(self):
 		xpath_span_close = "//span[@class='p-link js-ovl-close']"
-		span_close = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, xpath_span_close)))
+		span_close = WebDriverWait(self.driver, 1).until(ec.visibility_of_element_located((By.XPATH, xpath_span_close)))
 		span_close.click()
 
 	def notify(self):
 		xpath_notify = "//div[@class='btn btn--monochrome js-chrome-pushes-deny']"
-		notify_close = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, xpath_notify)))
+		notify_close = WebDriverWait(self.driver, 1).until(ec.visibility_of_element_located((By.XPATH, xpath_notify)))
 		notify_close.click()
 
 	def noVotes(self):
 		xpath_noVotes = "//div[@class='btn js-ovl-action']"
-		noVotesElement = WebDriverWait(self.driver, 4).until(ec.visibility_of_element_located((By.XPATH, xpath_noVotes)))
+		noVotesElement = WebDriverWait(self.driver, 1).until(ec.visibility_of_element_located((By.XPATH, xpath_noVotes)))
 		noVotesElement.click()
 
 if __name__ == "__main__":
@@ -69,38 +66,40 @@ if __name__ == "__main__":
 		print("No tiene conectate_inicial")
 	badoo_instance.login()
 
-	try:
-		badoo_instance.rare_element()
-	except :
-		print("No tenemos span raro")
-
 	contador = 0
 	while True:
 		contador += 1
-
-		# Se acabo los votos
 		try:
-			badoo_instance.noVotes()
-		except :
-			time.sleep(0.25)
+			# dando like
+			badoo_instance.click_button()
+			print("Dado click!!")
+			time.sleep(0.5)
+		except:
+			valor = 0
+            # Se acabo los votos
+			try:
+				if valor == 0:
+					badoo_instance.noVotes()
+					valor = 1 # Si se aplica la linea anterior cambia el valor
+			except:
+				time.sleep(0.25)
+			# span raro
+			try:
+				if valor == 0:
+					badoo_instance.rare_element()
+					valor = 1 # Si se aplica la linea anterior cambia el valor
+			except:
+				time.sleep(0.25)
+			# notificacion
+			try:
+				if valor == 0:
+					badoo_instance.notify()
+					valor = 1 # Si se aplica la linea anterior cambia el valor
+					print("Encontrado un notify!")
+			except:
+				time.sleep(0.25)
 
-		# span raro
-		try:
-			badoo_instance.rare_element()
-		except :
-			time.sleep(0.25)
-
-		# notificacion
-		try:
-			badoo_instance.notify()
-			print("Encontrado un notify!")
-		except :
-			time.sleep(0.25)
-
-		# dando like
-		badoo_instance.click_button()
-		print("Dado click!!")
-		if contador > 800:
+		if contador > 1400:
 			break
 
 	print("Bot muerto!")
