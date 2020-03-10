@@ -47,11 +47,15 @@ class Tinder_profile():
 			except:
 				break
 
-		time.sleep(2)
-		xpath_button_final = "//button[@class='button Lts($ls-s) Z(0) CenterAlign Mx(a) Cur(p) Tt(u) Ell Bdrs(100px) Px(24px) Px(20px)--s Py(0) Mih(54px) Pos(r) Ov(h) C(#fff) Bg($c-pink):h::b Bg($c-pink):f::b Bg($c-pink):a::b Trsdu($fast) Trsp($background) Bg($primary-gradient) button--primary-shadow StyledButton Fw($semibold) focus-button-style My(20px) My(12px)--xs Maw(315px) W(100%) Ell']"
-
-		button_final = WebDriverWait(self.driver, 5).until(ec.visibility_of_element_located((By.XPATH, xpath_button_final)))
-		button_final.click()
+		time.sleep(3)
+		try:
+			xpath_button_final = "//button[@class='button Lts($ls-s) Z(0) CenterAlign Mx(a) Cur(p) Tt(u) Ell Bdrs(100px) Px(24px) Px(20px)--s Py(0) Mih(54px) Pos(r) Ov(h) C(#fff) Bg($c-pink):h::b Bg($c-pink):f::b Bg($c-pink):a::b Trsdu($fast) Trsp($background) Bg($primary-gradient) button--primary-shadow StyledButton Fw($semibold) focus-button-style My(20px) My(12px)--xs Maw(315px) W(100%) Ell']"
+			button_final = WebDriverWait(self.driver, 5).until(ec.visibility_of_element_located((By.XPATH, xpath_button_final)))
+			button_final.click()
+		except:
+			xpath_button_final = "//div[@class='Ta(c) Expand Mx(a)']/button"
+			button_final = WebDriverWait(self.driver, 5).until(ec.visibility_of_element_located((By.XPATH, xpath_button_final)))
+			button_final.click()
 
 	def startButtons(self):
 		# Permitir ubicacion
